@@ -1,12 +1,13 @@
+import html
+from datetime import datetime
+
+import selenium.common.exceptions
+from prettytable import PrettyTable
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
 from indeed.indeed_result import Indeed_result
-from prettytable import PrettyTable
-import selenium.common.exceptions
-from datetime import datetime
-import html
-import time
 
 
 class Indeed(webdriver.Chrome):
@@ -25,23 +26,22 @@ class Indeed(webdriver.Chrome):
             self.quit()
 
     def pagina_inicial(self):
-        self.get('https://br.indeed.com/')
+        self.get("https://br.indeed.com/")
 
-    def procurar_trabalho(self, trabalho):
+    def procurar_trabalho(self, pesquisa):
         search_field = self.find_element(By.ID, "text-input-what")
         search_field.clear()
-        search_field.send_keys(trabalho)
+        search_field.send_keys(pesquisa)
         search_field.send_keys(Keys.RETURN)
 
     def postado_hoje(self):
-        data = self.find_element(By.ID, "filter-dateposted")      
+        data = self.find_element(By.ID, "filter-dateposted")
         data.click()
         try:
             hoje = self.find_element(By.XPATH, "//a[normalize-space()='Últimas 24 horas']")
             hoje.click()
 
         except selenium.common.exceptions.NoSuchWindowException as e:
-            # handle the exception by running another command
             print("Caught a NoSuchWindowException: ", e)
             hoje = self.find_element(By.XPATH, "//a[normalize-space()='Últimas 24 horas']")
             hoje.click()
@@ -50,19 +50,16 @@ class Indeed(webdriver.Chrome):
         except:
             print("Nenhum metodo de filtro encontrado")
 
-    def info_trabalho(self, qtd_paginas=1):
-        table = PrettyTable(
-            field_names=["Descrição do Trabalho", "Empresa", "Requisitos", "Link"]
-        )
+    def info_trabalho(self, excluir=None, pesquisa=None, qtd_paginas=1):
+        table = PrettyTable(field_names=["Descrição do Trabalho", "Empresa", "Requisitos", "Link"])
 
         for pagina in range(qtd_paginas):
             resultados_da_pesquisa = self.find_element(By.ID, "mosaic-jobResults")
             resultado = Indeed_result(resultados_da_pesquisa)
 
-            table.add_rows(resultado.pull_box_attributes())
-            print("111111111111111111")
+            table.add_rows(resultado.pull_box_attributes(excluir, pesquisa))
 
-            if pagina + 1 < qtd_paginas:               
+            if pagina + 1 < qtd_paginas:
                 try:
                     next_page_link = self.find_element(By.LINK_TEXT, str(pagina + 2))
                     self.execute_script("arguments[0].scrollIntoView();", next_page_link)
@@ -73,8 +70,8 @@ class Indeed(webdriver.Chrome):
                         close_button.click()
                     except:
                         print("NÃO achou o que fechar")
-                        pass    
-                    next_page_link.click()  
+                        pass
+                    next_page_link.click()
             else:
                 continue
 
