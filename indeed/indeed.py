@@ -6,18 +6,20 @@ from prettytable import PrettyTable
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
 
 from indeed.indeed_result import Indeed_result
 
 
 class Indeed(webdriver.Chrome):
-    def __init__(self, teardwon=False):
-        self.teardown = teardwon
+    def __init__(self, teardown=False):
+        self.teardown = teardown
         options = webdriver.ChromeOptions()
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         options.add_experimental_option("detach", True)
 
-        super(Indeed, self).__init__(options=options)
+        driver_path = ChromeDriverManager().install()
+        super(Indeed, self).__init__(executable_path=driver_path, options=options)
         self.implicitly_wait(15)
         self.maximize_window()
 
@@ -42,7 +44,9 @@ class Indeed(webdriver.Chrome):
             hoje.click()
 
         except:
+            print("Filtro não encontrado")
             try:
+                print("Tentando método alternativo de filtro")
                 hoje = self.find_element(By.ID, "filter-dateposted-0")
                 hoje.click()
                 hoje.send_keys(Keys.RETURN)
@@ -75,7 +79,7 @@ class Indeed(webdriver.Chrome):
             else:
                 continue
 
-        print(table)
+        print("Concluído com sucesso.")
 
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 

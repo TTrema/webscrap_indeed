@@ -42,15 +42,10 @@
 
     python main.py
 
-### Baixe o chromedriver
-
-    Faça o download do chromedriver em https://chromedriver.chromium.org/downloads 
-    de acordo com a sua versão do chrome e coloque na raiz do diretório.
-
 ### Coloque os parâmetros
 
-    Coloque os parâmetros de pesquisa, quantidade de páginas a serem pesquisadas 
-    e quais palavras deve ser excluídas do título dos resultados.
+    Coloque os parâmetros de pesquisa, quais palavras devem ser excluídas do título dos resultados
+    e quantidade de páginas a serem pesquisadas.
 
 ### Abrir o resultado
 

@@ -1,4 +1,5 @@
 from indeed.indeed import Indeed
+
 pesquisa = input("Qual palavra deseja pesquisar? ")
 excluir = input("Quais palavras(separadas por vírgula) deseja excluir da pesquisa? ").lower()
 excluir = [x.strip() for x in excluir.split(",")]
@@ -12,4 +13,4 @@ try:
         bot.info_trabalho(excluir=excluir, pesquisa=pesquisa, qtd_paginas=qtd_paginas)
 
 except Exception as e:
-    raise
+    raise e
