@@ -41,14 +41,14 @@ class Indeed(webdriver.Chrome):
             hoje = self.find_element(By.XPATH, "//a[normalize-space()='Últimas 24 horas']")
             hoje.click()
 
-        except selenium.common.exceptions.NoSuchWindowException as e:
-            print("Caught a NoSuchWindowException: ", e)
-            hoje = self.find_element(By.XPATH, "//a[normalize-space()='Últimas 24 horas']")
-            hoje.click()
-            hoje.send_keys(Keys.RETURN)
-
         except:
-            print("Nenhum metodo de filtro encontrado")
+            try:
+                hoje = self.find_element(By.ID, "filter-dateposted-0")
+                hoje.click()
+                hoje.send_keys(Keys.RETURN)
+
+            except:
+                print("Nenhum método de filtro encontrado")
 
     def info_trabalho(self, excluir=None, pesquisa=None, qtd_paginas=1):
         table = PrettyTable(field_names=["Descrição do Trabalho", "Empresa", "Requisitos", "Link"])

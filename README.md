@@ -1,4 +1,4 @@
-﻿# Um bot de webscraping do site Indeed usando selenium
+﻿﻿# Um bot de webscraping do site Indeed usando selenium
 
 
 ## Demonstração:
@@ -9,11 +9,14 @@
 
 ### Esse bot permite pesquisar por empregos no Indeed.com e retorna uma lista com:
 
--Título
--Empresa
--Requisitos
--Link para candidatura
-  
+
+<ul>
+<li>Título</li>
+<li>Empresa</li>
+<li>Requisitos</li>
+<li>Link para candidatura</li>
+</ul>
+
 ## Pré-requisitos:
    <ul>
    <li>Python</li>
@@ -21,7 +24,7 @@
 
 ## Instruções de uso:
 
-## Crie e ative um virtual environment:
+### Crie e ative um virtual environment:
 
     Windows:
         Crie a venv usando o comando python -m venv nome_da_venv (exemplo: python -m venv venv).
@@ -41,16 +44,15 @@
 
 ### Baixe o chromedriver
 
-    Faça o download do chromedriver em https://chromedriver.chromium.org/downloads de acordo com a sua versão do chrome e coloque na raiz do diretório.
+    Faça o download do chromedriver em https://chromedriver.chromium.org/downloads 
+    de acordo com a sua versão do chrome e coloque na raiz do diretório.
 
 ### Coloque os parâmetros
 
-    Coloque os parâmetros de pesquisa, quantidade de páginas a serem pesquisadas e quais palavras deve ser excluídas do título dos resultados.
+    Coloque os parâmetros de pesquisa, quantidade de páginas a serem pesquisadas 
+    e quais palavras deve ser excluídas do título dos resultados.
 
 ### Abrir o resultado
 
     Depois é só abrir o resultado que é salvo como indeed.html
-
-
-
 

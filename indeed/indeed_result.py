@@ -15,21 +15,25 @@ class Indeed_result:
         collection = []
         for resultado in self.resultados:
             requisito = []
-            descricao_do_trabalho = resultado.find_element(By.CSS_SELECTOR, 'span[id*="jobTitle"]').text
-            requisitos = resultado.find_elements(By.CLASS_NAME, "taxoAttribute")
-            for item in requisitos:
-                requisito.append(item.text)
-            empresa = resultado.find_element(By.CLASS_NAME, "companyName").text
             try:
-                link = resultado.find_element(By.CSS_SELECTOR, 'a[id*="job_"]')
-                url = link.get_attribute("href")
-            except NoSuchElementException:
-                link = resultado.find_element(By.CSS_SELECTOR, 'a[id*="sj_"]')
-                url = link.get_attribute("href")
+                descricao_do_trabalho = resultado.find_element(By.CSS_SELECTOR, 'span[id*="jobTitle"]').text
+                if all(keyword not in descricao_do_trabalho.lower() for keyword in excluir) and pesquisa.lower() in descricao_do_trabalho.lower():
+                    print(descricao_do_trabalho)
+                    requisitos = resultado.find_elements(By.CLASS_NAME, "taxoAttribute")
+                    for item in requisitos:
+                        requisito.append(item.text)
+                    empresa = resultado.find_element(By.CLASS_NAME, "companyName").text
+                    try:
+                        link = resultado.find_element(By.CSS_SELECTOR, 'a[id*="job_"]')
+                        url = link.get_attribute("href")
+                    except NoSuchElementException:
+                        link = resultado.find_element(By.CSS_SELECTOR, 'a[id*="sj_"]')
+                        url = link.get_attribute("href")
+                    except:
+                        url = "Não encontrado"
+                    
+                    collection.append([descricao_do_trabalho, empresa, requisito, f'<a href="{url}" target="_blank">{url}</a>'])
             except:
-                url = "Não encontrado"
-
-            if all(keyword not in descricao_do_trabalho.lower() for keyword in excluir) and pesquisa.lower() in descricao_do_trabalho.lower():
-                collection.append([descricao_do_trabalho, empresa, requisito, f'<a href="{url}" target="_blank">{url}</a>'])
+                continue
 
         return collection
