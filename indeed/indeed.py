@@ -47,7 +47,7 @@ class Indeed(webdriver.Chrome):
             print("Filtro não encontrado")
             try:
                 print("Tentando método alternativo de filtro")
-                hoje = self.find_element(By.ID, "filter-dateposted-0")
+                hoje = self.find_element(By.CSS_SELECTOR, 'label[for="filter-dateposted-0"]')
                 hoje.click()
                 hoje.send_keys(Keys.RETURN)
 
